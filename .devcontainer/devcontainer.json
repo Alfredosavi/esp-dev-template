@@ -1,0 +1,117 @@
+{
+  "name": "ESP-IDF Dev Container",
+
+  // ==========================================================================
+  // Container
+  // ==========================================================================
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+
+  "remoteUser": "ubuntu",
+  "updateRemoteUserUID": true,
+
+  // ==========================================================================
+  // Workspace
+  // ==========================================================================
+  "workspaceFolder": "/app",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
+
+  "containerEnv": {
+    "PROJECT_WORKSPACE": "/app"
+  },
+
+  "postCreateCommand": "bash /app/.devcontainer/setup-dev-env.sh",
+
+  // ==========================================================================
+  // Persistent storage
+  // ==========================================================================
+  "mounts": [
+    "source=esp-idf-ccache,target=/home/ubuntu/.cache/ccache,type=volume"
+  ],
+
+  // ==========================================================================
+  // VS Code
+  // ==========================================================================
+  "customizations": {
+    "vscode": {
+      "settings": {
+
+        // --------------------------------------------------------------------
+        // Terminal
+        // --------------------------------------------------------------------
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "icon": "terminal-bash"
+          }
+        },
+
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.cwd": "${workspaceFolder}",
+
+        // --------------------------------------------------------------------
+        // Files / search
+        // --------------------------------------------------------------------
+        "search.exclude": {
+          "**/build": true
+        },
+        "files.watcherExclude": {
+          "**/build/**": true
+        },
+
+        "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+        "C_Cpp.formatting": "clangFormat",
+        "C_Cpp.clang_format_style": "file",
+        "C_Cpp.clang_format_fallbackStyle": "none",
+        "C_Cpp.clang_format_path": "/usr/bin/clang-format",
+
+        "[c]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "ms-vscode.cpptools"
+        },
+        "[cpp]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "ms-vscode.cpptools"
+        },
+
+        "idf.gitPath": "/usr/bin/git"
+      },
+
+      "extensions": [
+        // ESP-IDF
+        "espressif.esp-idf-extension",
+
+        // C/C++
+        "ms-vscode.cpptools",
+
+        // Embedded development
+        "ms-vscode.vscode-serial-monitor",
+        "ms-vscode.hexeditor",
+
+        // Git / project
+        "eamodio.gitlens",
+        "editorconfig.editorconfig",
+
+        // Editing / diagnostics
+        "esbenp.prettier-vscode",
+        "usernamehw.errorlens",
+        "gruntfuggly.todo-tree"
+      ]
+    }
+  },
+
+  // ==========================================================================
+  // Hardware
+  // ==========================================================================
+  "runArgs": [
+    // Add only devices required by the current project.
+    // The device must exist on the host before the container is created.
+    //
+    // Examples:
+    // "--device=/dev/ttyUSB0"
+    // "--device=/dev/ttyACM0"
+    //
+    // USB/JTAG access is intentionally handled separately.
+  ]
+}

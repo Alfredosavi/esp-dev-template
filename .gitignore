@@ -1,0 +1,15 @@
+# ESP-IDF build
+build/
+
+# Generated configuration
+sdkconfig
+sdkconfig.old
+
+# ESP-IDF Component Manager
+managed_components/
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+*.swo
